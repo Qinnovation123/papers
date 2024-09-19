@@ -28,6 +28,8 @@ async def search(query: str):
 
     for item in document.css(".gs_or"):
         page_anchor = item.css("h3 a")
+        if not page_anchor:
+            continue
         page_link = page_anchor.attrib["href"]
 
         title = page_anchor.css("::text").get()
