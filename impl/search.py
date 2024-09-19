@@ -1,5 +1,7 @@
+from asyncio import sleep
 from typing import TypedDict
 
+from diskcache import Cache
 from parsel import Selector
 
 from utils.http import fetch
@@ -16,7 +18,7 @@ class BlockedError(Exception):
     pass
 
 
-async def search(query: str):
+async def _search(query: str):
     html = await fetch("https://scholar.google.com/scholar", {"q": query})
 
     document = Selector(html)
@@ -53,3 +55,15 @@ async def search(query: str):
         })
 
     return results
+
+
+cache = Cache("data/cache")
+
+
+async def search(query: str):
+    if query in cache:
+        return cache.get(query)
+    result = await _search(query)
+    cache.set(query, result)
+    await sleep(5)
+    return result

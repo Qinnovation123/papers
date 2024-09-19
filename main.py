@@ -5,7 +5,7 @@ from impl.task import articles
 
 
 async def main():
-    for i in articles[:10]:
+    for i in articles:
         print(await search(i))
 
 
