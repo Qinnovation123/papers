@@ -5,7 +5,7 @@ requires-python = ">=3.12"
 dependencies = [
     "diskcache~=5.6.3",
     "fake-useragent~=1.5.1",
-    "niquests~=3.7.2",
+    "niquests~=3.8.0",
     "parsel~=1.9.1",
     "ruff~=0.6.5",
 ]
