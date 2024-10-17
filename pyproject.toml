@@ -7,7 +7,7 @@ dependencies = [
     "fake-useragent~=1.5.1",
     "niquests~=3.9.0",
     "parsel~=1.9.1",
-    "ruff~=0.6.5",
+    "ruff~=0.7.0",
 ]
 
 [tool.ruff]
