@@ -3,10 +3,10 @@ from niquests import AsyncSession
 
 ua = FakeUserAgent(platforms=["pc"])  # Google Scholar will return PDF links if the user-agent is a PC
 
-session = AsyncSession(happy_eyeballs=True)
+session = AsyncSession()
 
 
-async def fetch(url: str, params={}):
+async def fetch(url: str, params=None):
     with await session.get(url, params=params, headers={"user-agent": ua.random}) as res:
         return res.text
 
