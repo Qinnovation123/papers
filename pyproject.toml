@@ -3,6 +3,7 @@ name = "papers-downloader"
 version = "0"
 requires-python = ">=3.12"
 dependencies = [
+    "alive-progress~=3.2.0",
     "diskcache~=5.6.3",
     "fake-useragent~=1.5.1",
     "fastapi~=0.115.5",

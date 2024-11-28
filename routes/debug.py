@@ -2,7 +2,9 @@ from typing import Literal
 from urllib.parse import urlparse
 
 from fastapi import APIRouter, Body, Response
-from fastapi.responses import PlainTextResponse
+from fastapi.exceptions import RequestValidationError
+from fastapi.responses import JSONResponse, PlainTextResponse
+from pydantic import TypeAdapter, ValidationError
 
 from impl.search import SearchResult, cache
 
@@ -62,3 +64,21 @@ async def fetch_and_parse(url: str):
     from impl.pdf import get_markdown
 
     return PlainTextResponse(await get_markdown(url), media_type="text/markdown")
+
+
+@router.get("/cache", response_model=dict[str, list[SearchResult]])
+def get_cache():
+    return JSONResponse({i: cache[i] for i in cache}, headers={"content-disposition": 'attachment; filename="cache.json"'})
+
+
+@router.put("/cache")
+def update_cache(body: bytes = Body(media_type="application/pdf")):
+    try:
+        data = TypeAdapter(dict[str, list[SearchResult]]).validate_json(body)
+    except ValidationError as e:
+        raise RequestValidationError(e.errors())
+
+    from alive_progress import alive_it
+
+    for i, j in alive_it(data.items(), len(data), title=" syncing cache"):
+        cache[i] = j
