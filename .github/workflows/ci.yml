@@ -12,7 +12,8 @@ jobs:
   check:
     strategy:
       matrix:
-        os: [ubuntu, windows, macos]
+        os: [ubuntu, macos]
+        py: [3.12, 3.13]
       fail-fast: false
     runs-on: ${{ matrix.os }}-latest
     steps:
@@ -20,12 +21,16 @@ jobs:
       - name: Set up Python
         uses: actions/setup-python@v5
         with:
-          python-version: 3.12
+          python-version: ${{ matrix.py }}
       - name: Install dependencies
         run: |
           pip install uv
           uv pip install -r pyproject.toml --system
+          yarn global add pyright
       - name: Check code quality
         run: |
           ruff format --check --diff
           ruff check --diff
+      - name: Check typing
+        run: |
+          pyright
