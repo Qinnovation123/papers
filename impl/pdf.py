@@ -6,10 +6,14 @@ from utils.http import session, ua
 proxy_base_url = getenv("PROXY_BASE_URL", "https://http-proxy.up.railway.app")
 
 
-async def fetch_pdf(url: str):
+async def fetch_pdf(url: str, refresh=False):
     headers = {"user-agent": ua.random, "accept": "application/pdf"}
 
-    res = await session.get(f"{proxy_base_url}/proxy?url={url}", headers=headers)
+    params = {"url": url}
+    if refresh:
+        params["refresh"] = "true"
+
+    res = await session.get(f"{proxy_base_url}/proxy", headers=headers, params=params)
     res.raise_for_status()
     assert res.content is not None, res
     return res.content
