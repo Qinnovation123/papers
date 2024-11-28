@@ -1,4 +1,4 @@
-from asyncio import sleep
+from contextlib import AbstractAsyncContextManager
 from typing import TypedDict
 
 from diskcache import Cache
@@ -60,10 +60,13 @@ async def _search(query: str):
 cache = Cache("data/cache")
 
 
-async def search(query: str):
+async def search(query: str, lock: AbstractAsyncContextManager | None = None):
     if query in cache:
         return cache.get(query)
-    result = await _search(query)
+    if lock:
+        async with lock:
+            result = await _search(query)
+    else:
+        result = await _search(query)
     cache.set(query, result)
-    await sleep(5)
     return result
