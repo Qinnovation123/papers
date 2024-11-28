@@ -8,7 +8,10 @@ from niquests.auth import BearerTokenAuth
 
 from utils.http import session
 
-auth = BearerTokenAuth(getenv("JINA_API_KEY"))
+api_key = getenv("JINA_API_KEY")
+assert api_key, "JINA_API_KEY is required"
+
+auth = BearerTokenAuth(api_key)
 headers = {"Content-Type": "application/json"}
 
 post = partial(session.post, headers=headers, auth=auth)
