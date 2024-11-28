@@ -1,9 +1,7 @@
 from asyncio import Semaphore
-from os import getenv
 
+from utils.config import env
 from utils.http import session, ua
-
-proxy_base_url = getenv("PROXY_BASE_URL", "https://http-proxy.up.railway.app")
 
 
 async def fetch_pdf(url: str, refresh=False):
@@ -13,17 +11,14 @@ async def fetch_pdf(url: str, refresh=False):
     if refresh:
         params["refresh"] = "true"
 
-    res = await session.get(f"{proxy_base_url}/proxy", headers=headers, params=params)
+    res = await session.get(f"{env.proxy_base_url}/proxy", headers=headers, params=params)
     res.raise_for_status()
     assert res.content is not None, res
     return res.content
 
 
-pdf2md_base_url = getenv("PDF2MD_BASE_URL", "https://pdf2md.up.railway.app")
-
-
 async def extract_text(raw: bytes):
-    res = await session.post(f"{pdf2md_base_url}/convert", data=raw, headers={"content-type": "application/pdf"})
+    res = await session.post(f"{env.pdf2md_base_url}/convert", data=raw, headers={"content-type": "application/pdf"})
     res.raise_for_status()
     assert res.text is not None, res
     return res.text

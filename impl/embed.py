@@ -1,17 +1,14 @@
 from base64 import b64decode
 from functools import partial
 from operator import itemgetter
-from os import getenv
 
 import numpy as np
 from niquests.auth import BearerTokenAuth
 
+from utils.config import env
 from utils.http import session
 
-api_key = getenv("JINA_API_KEY")
-assert api_key, "JINA_API_KEY is required"
-
-auth = BearerTokenAuth(api_key)
+auth = BearerTokenAuth(env.jina_api_key)
 headers = {"Content-Type": "application/json"}
 
 post = partial(session.post, headers=headers, auth=auth)
