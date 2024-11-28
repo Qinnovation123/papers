@@ -13,6 +13,10 @@ def has_pdf_url(results: list[SearchResult]):
     return any(i["pdf_url"] for i in results)
 
 
+def is_resolved(query: str):
+    return query in cache and has_pdf_url(cache[query])  # type: ignore
+
+
 @router.get("/tasks/{filter_by}")
 async def tasks(filter_by: Literal["resolved-only", "all", "unresolved-only"]) -> list[str]:
     from impl.task import articles
@@ -21,9 +25,9 @@ async def tasks(filter_by: Literal["resolved-only", "all", "unresolved-only"]) -
         case "all":
             return articles
         case "resolved-only":
-            return [i for i in articles if has_pdf_url(cache[i])]  # type: ignore
+            return [i for i in articles if is_resolved(i)]
         case "unresolved-only":
-            return [i for i in articles if not has_pdf_url(cache[i])]  # type: ignore
+            return [i for i in articles if not is_resolved(i)]
 
 
 @router.get("/search/{query}")
