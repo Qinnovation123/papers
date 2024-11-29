@@ -57,12 +57,12 @@ async def _search(query: str):
     return results
 
 
-cache = Cache("data/cache")
+cache = Cache[str, list[SearchResult]]("data/cache")
 
 
 async def search(query: str, lock: AbstractAsyncContextManager | None = None):
     if query in cache:
-        return cache.get(query)
+        return cache[query]
     if lock:
         async with lock:
             result = await _search(query)

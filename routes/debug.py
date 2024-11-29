@@ -16,7 +16,7 @@ def has_pdf_url(results: list[SearchResult]):
 
 
 def is_resolved(query: str):
-    return query in cache and has_pdf_url(cache[query])  # type: ignore
+    return query in cache and has_pdf_url(cache[query])
 
 
 @router.get("/tasks/{filter_by}")
@@ -36,7 +36,7 @@ async def tasks(filter_by: Literal["resolved-only", "all", "unresolved-only"]) -
 async def search(query: str) -> list[SearchResult]:
     from impl.search import search
 
-    return await search(query)  # type: ignore
+    return await search(query)
 
 
 @router.get("/pdf/fetch")
