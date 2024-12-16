@@ -1,7 +1,7 @@
 from fake_useragent import FakeUserAgent
 from niquests import AsyncSession
 
-ua = FakeUserAgent(platforms=["pc"])  # Google Scholar will return PDF links if the user-agent is a PC
+ua = FakeUserAgent(platforms=["desktop"])  # Google Scholar will return PDF links if the user-agent is a desktop browser
 
 session = AsyncSession()
 

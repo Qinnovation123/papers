@@ -5,7 +5,7 @@ requires-python = ">=3.12"
 dependencies = [
     "alive-progress~=3.2.0",
     "diskcache2~=0.1.1",
-    "fake-useragent~=1.5.1",
+    "fake-useragent~=2.0.3",
     "fastapi~=0.115.5",
     "niquests~=3.11.0",
     "numpy~=2.2.0",
