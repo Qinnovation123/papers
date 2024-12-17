@@ -4,10 +4,9 @@ from contextlib import suppress
 from typing import Literal, cast
 
 from fastapi import APIRouter, BackgroundTasks, HTTPException
-from numpy import ndarray
 from pydantic import BaseModel
 
-from impl.embed import embed
+from impl.article import Article
 from impl.pdf import extract_text, fetch_pdf
 from impl.search import SearchResult, cache
 from impl.task import articles
@@ -33,12 +32,9 @@ class Job:
         return await extract_text(pdf)
 
     @throttle(30)
-    async def embed(self, markdown: str):
-        # TODO: markdown chunking with AST
-        [embedding] = await embed([markdown])
-        return embedding
-
-    async def upsert(self, embedding: ndarray): ...
+    async def embed_and_upsert(self, markdown: str):
+        article = Article(url=self.url, title="", content=markdown)
+        await article.upsert()
 
     async def run(self, url: str):
         with suppress(Exception):
@@ -46,10 +42,8 @@ class Job:
             self.state = 1
             markdown = await self.extract(pdf)
             self.state = 2
-            embedding = await self.embed(markdown)
+            await self.embed_and_upsert(markdown)
             self.state = 3
-            await self.upsert(embedding)
-            self.state = 4
 
 
 class Batch:

@@ -4,6 +4,7 @@ version = "0"
 requires-python = ">=3.12"
 dependencies = [
     "alive-progress~=3.2.0",
+    "attrs~=24.3.0",
     "diskcache2~=0.1.1",
     "fake-useragent~=2.0.3",
     "fastapi~=0.115.5",
@@ -13,6 +14,7 @@ dependencies = [
     "parsel~=1.9.1",
     "pydantic-settings~=2.7.0",
     "python-slugify~=8.0.4",
+    "qdrant-client~=1.12.1",
     "ruff~=0.8.0",
     "uvicorn~=0.34.0",
     "watchfiles~=1.0.0",

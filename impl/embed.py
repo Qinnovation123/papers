@@ -31,7 +31,7 @@ async def embed(queries: list[str]):
     return [base64_to_float(item["embedding"]) for item in embeddings]
 
 
-def base64_to_float(data: str):
+def base64_to_float(data: str) -> list[float]:
     array = np.frombuffer(b64decode(data), dtype=np.float32)
     assert array.shape == (1024,), array.shape
-    return array
+    return array.tolist()  # type: ignore
