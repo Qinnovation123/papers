@@ -7,6 +7,7 @@ dependencies = [
     "diskcache2~=0.1.1",
     "fake-useragent~=2.0.3",
     "fastapi~=0.115.5",
+    "mistune~=3.0.2",
     "niquests~=3.11.0",
     "numpy~=2.2.0",
     "parsel~=1.9.1",
