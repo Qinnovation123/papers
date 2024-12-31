@@ -19,13 +19,12 @@ jobs:
     steps:
       - uses: actions/checkout@v4
       - name: Set up Python
-        uses: actions/setup-python@v5
+        uses: astral-sh/setup-uv@v5
         with:
           python-version: ${{ matrix.py }}
       - name: Install dependencies
         run: |
-          pip install uv
-          uv pip install -r pyproject.toml --system
+          uv pip install -r pyproject.toml
           yarn global add pyright
       - name: Check code quality
         run: |
