@@ -13,7 +13,7 @@ def get_parser():
 
 
 def parse(markdown: str) -> list[Token]:
-    return get_parser()(markdown)
+    return get_parser()(markdown)  # type: ignore
 
 
 @cache
