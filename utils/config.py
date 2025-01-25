@@ -10,6 +10,11 @@ class Config(BaseSettings):
     proxy_base_url: str = "https://http-proxy.up.railway.app"
     pdf2md_base_url: str = "https://pdf2md.up.railway.app"
 
+    wos_base_url: str = "https://www.webofscience.com/"
+    wos_sid: str = ""
+
+    scihub_base_url: str = "https://www.wellesu.com/"
+
     model_config = {"env_file": ".env"}
 
 

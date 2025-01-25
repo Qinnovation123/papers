@@ -21,15 +21,15 @@ def is_resolved(query: str):
 
 @router.get("/tasks/{filter_by}")
 async def tasks(filter_by: Literal["resolved-only", "all", "unresolved-only"]) -> list[str]:
-    from impl.task import articles
+    from impl.task import titles
 
     match filter_by:
         case "all":
-            return articles
+            return titles
         case "resolved-only":
-            return [i for i in articles if is_resolved(i)]
+            return [i for i in titles if is_resolved(i)]
         case "unresolved-only":
-            return [i for i in articles if not is_resolved(i)]
+            return [i for i in titles if not is_resolved(i)]
 
 
 @router.get("/search/{query}")

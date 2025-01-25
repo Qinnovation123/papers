@@ -9,7 +9,7 @@ from pydantic import BaseModel
 from impl.article import Article
 from impl.pdf import extract_text, fetch_pdf
 from impl.search import SearchResult, cache
-from impl.task import articles
+from impl.task import titles
 from utils.concurrency import throttle
 
 lock = Lock()
@@ -77,7 +77,7 @@ async def run_all(bg: BackgroundTasks) -> dict[Literal["total"], int]:
     global current_batch
     if current_batch:
         raise HTTPException(400, "A batch is already running")
-    urls = [result["pdf_url"] for i in articles for result in cast(list[SearchResult], cache.get(i, [])) if result["pdf_url"]]
+    urls = [result["pdf_url"] for i in titles for result in cast(list[SearchResult], cache.get(i, [])) if result["pdf_url"]]
     current_batch = Batch(urls)
     bg.add_task(current_batch.start)
     return {"total": len(urls)}
