@@ -1,6 +1,8 @@
 from contextlib import AbstractAsyncContextManager, suppress
 from csv import DictReader
 from functools import cache
+from hashlib import md5
+from json import dumps
 from pathlib import Path
 
 from attrs import define, field
@@ -44,9 +46,18 @@ class Article:
         path.mkdir(parents=True, exist_ok=True)
         return Cache[str, DownloadInfo](path)
 
+    @property
+    def key(self):
+        if self.unique_id:
+            return self.unique_id
+        elif self.doi:
+            return f"DOI:{self.doi}"
+        else:
+            return f"MD5:{md5(dumps(self.metadata, sort_keys=True).encode()).hexdigest()}"
+
     async def get_info(self, lock: AbstractAsyncContextManager) -> DownloadInfo:
         with suppress(KeyError):
-            return self.cache[self.unique_id]
+            return self.cache[self.key]
 
         info = DownloadInfo(self.metadata, self.doi or None)
         if self.doi:
@@ -60,7 +71,7 @@ class Article:
                     info.pdf_url = url
 
         if info.pdf_url:
-            self.cache[self.unique_id] = info
+            self.cache[self.key] = info
 
         return info
 
