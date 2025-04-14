@@ -24,12 +24,12 @@ jobs:
           python-version: ${{ matrix.py }}
       - name: Install dependencies
         run: |
-          uv pip install -r pyproject.toml
-          yarn global add pyright
+          uv sync
       - name: Check code quality
         run: |
           ruff format --check --diff
           ruff check --diff
+      - uses: oven-sh/setup-bun@v2
       - name: Check typing
         run: |
-          pyright
+          bunx pyright
