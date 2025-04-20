@@ -58,7 +58,7 @@ async def _search(query: str):
     return results
 
 
-cache = Cache[str, list[SearchResult]](env.storage_dir / "cache")
+cache = Cache[str, list[SearchResult]](env.storage_dir / "cache" / "search")
 
 
 async def search(query: str, lock: AbstractAsyncContextManager | None = None):
