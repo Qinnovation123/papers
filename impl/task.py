@@ -10,6 +10,7 @@ from attrs import define, field
 from impl.downloader import fetch_wos, get_download_url
 from impl.search import SearchResult, search
 from utils.clsprop import classproperty
+from utils.config import env
 
 
 @define
@@ -42,7 +43,7 @@ class Article:
     def cache():
         from diskcache import Cache
 
-        path = Path("data/cache/article-info")
+        path = env.storage_dir / "cache" / "article-info"
         path.mkdir(parents=True, exist_ok=True)
         return Cache[str, DownloadInfo](path)
 

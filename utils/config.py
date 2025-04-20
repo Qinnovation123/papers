@@ -1,3 +1,5 @@
+from pathlib import Path
+
 from pydantic_settings import BaseSettings
 
 
@@ -14,6 +16,8 @@ class Config(BaseSettings):
     wos_sid: str = ""
 
     scihub_base_url: str = "https://www.wellesu.com/"
+
+    storage_dir: Path = Path(__file__, "../../data").resolve().relative_to(Path.cwd())
 
     model_config = {"env_file": ".env"}
 

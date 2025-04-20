@@ -4,6 +4,7 @@ from typing import TypedDict
 from diskcache import Cache
 from parsel import Selector
 
+from utils.config import env
 from utils.http import fetch
 
 
@@ -57,7 +58,7 @@ async def _search(query: str):
     return results
 
 
-cache = Cache[str, list[SearchResult]]("data/cache")
+cache = Cache[str, list[SearchResult]](env.storage_dir / "cache")
 
 
 async def search(query: str, lock: AbstractAsyncContextManager | None = None):
