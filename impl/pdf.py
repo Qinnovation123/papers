@@ -34,7 +34,7 @@ async def get_markdown(url: str):
 
 
 async def extract_metadata(raw: bytes) -> dict:
-    res = await session.post(f"{env.pdf2md_base_url}/extract", data=raw, headers={"content-type": "application/pdf"})
+    res = await session.post(f"{env.pdf2md_base_url}/extract", data=raw, headers={"content-type": "application/pdf"}, timeout=150)
     res.raise_for_status()
     assert res.text is not None, res
     return res.json()
