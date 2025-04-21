@@ -31,3 +31,10 @@ async def get_markdown(url: str):
     async with sem:
         pdf = await fetch_pdf(url)
     return await extract_text(pdf)
+
+
+async def extract_metadata(raw: bytes) -> dict:
+    res = await session.post(f"{env.pdf2md_base_url}/extract", data=raw, headers={"content-type": "application/pdf"})
+    res.raise_for_status()
+    assert res.text is not None, res
+    return res.json()
