@@ -32,7 +32,7 @@ class App(UI):
         status_text.append(f" Success: {self.success}", style="green")
         status_text.append(f" Failed: {self.failed}", style="red")
         if self.last_success:
-            status_text.append(f"\n Last Success: {self.last_success}\n")
+            status_text.append(f"\n Last Success: {self.last_success}")
 
         return Panel(status_text, title="PDF Download Progress", border_style="green")
 
