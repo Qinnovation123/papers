@@ -11,4 +11,5 @@ __pycache__
 .fleet
 .idea
 
-data/cache
+!data/secondary-metabolism.csv
+data
