@@ -31,6 +31,8 @@ async def get_metadata(article: Article) -> Metadata | None:
         if url := info.pdf_url:
             if url.startswith("//"):
                 url = f"https:{url}"
+            elif url.startswith("/"):  # TODO: fix these relative urls
+                return
             content = await fetch_pdf(url)
             metadata: Metadata = await extract_metadata(content)  # type: ignore
             if metadata.pop("success"):
