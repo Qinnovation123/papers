@@ -4,7 +4,8 @@ from pydantic_settings import BaseSettings
 
 
 class Config(BaseSettings):
-    jina_api_key: str
+    jina_api_key: str = ""
+    mineru_api_key: str = ""
 
     qdrant_url: str = ":memory:"
     qdrant_api_key: str | None = None
