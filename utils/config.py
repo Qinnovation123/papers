@@ -19,7 +19,7 @@ class Config(BaseSettings):
 
     storage_dir: Path = Path(__file__, "../../data").resolve().relative_to(Path.cwd())
 
-    model_config = {"env_file": ".env"}
+    model_config = {"env_file": ".env", "extra": "allow"}
 
 
 env = Config()  # type: ignore
